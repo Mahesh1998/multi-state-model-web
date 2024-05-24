@@ -1,6 +1,0 @@
-Django
-numpy
-pandas
-matplotlib
-scipy
-djangorestframework
