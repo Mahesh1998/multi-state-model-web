@@ -1,7 +1,7 @@
 # multi-state-model-web
 ## Steps to run the project
 1. Install python-3.12.3, if not exists.
-2. Outside of project directory create vitual environment.
+2. Outside of project directory, create vitual environment.
 ```bash
 python3 -m venv "virtual environment name" --system-site-packages
 ```
