@@ -17,7 +17,7 @@ pip install -r requirements.txt
 ```bash
 cd prediction_of_charge_delocalization_in_oligomer/ 
 ```
-7. Run the project
+6. Run the project
 ```bash
 python manage.py runserver
 ```
