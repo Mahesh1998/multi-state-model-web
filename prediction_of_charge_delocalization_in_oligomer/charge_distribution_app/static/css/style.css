@@ -1,3 +1,15 @@
 .oligomer_compute_form{
     display: none;
 }
+
+.oligomer_compute_form_display{
+    display: block;
+}
+
+.series_oligomer_compute_form{
+    display: none;
+}
+
+.series_oligomer_compute_form_display{
+    display: block;
+}

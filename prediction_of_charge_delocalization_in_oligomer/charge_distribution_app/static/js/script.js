@@ -1,3 +1,24 @@
+function create_div(){
+
+}
+
+function selected_form(e) {
+    e.preventDefault();
+    let form = document.getElementById(this.value);
+    let div = document.getElementById("forms_list");
+    if (div.children[0].classList.contains("oligomer_compute_form_display")){
+        div.children[0].classList.remove("oligomer_compute_form_display");
+        form.classList.add("series_oligomer_compute_form_display");
+    }
+    else if (div.children[1].classList.contains("series_oligomer_compute_form_display")){
+        div.children[1].classList.remove("series_oligomer_compute_form_display");
+        form.classList.add("oligomer_compute_form_display");
+    }
+    else{
+        form.classList.add(this.value + "_display");
+    }
+    
+}
 
 function oligomer_compute_form_submit(e){
     e.preventDefault();
@@ -36,10 +57,19 @@ function oligomer_compute_form_submit(e){
     xhr.send(JSON.stringify(request));
 }
 
+function genericFormEventListener(form_id, eventListenerName){
+    const form = document.getElementById(form_id);
+    form.addEventListener("submit", eventListenerName);
+}
+
 function allEventListeners(){
+    //select form type event listener
+    document.getElementById("select_form").addEventListener("change", selected_form);
+
     //oligomer compute form event listener
-    const form = document.getElementById("oligomer_compute_form");
-    form.addEventListener("submit", oligomer_compute_form_submit);
+    genericFormEventListener("oligomer_compute_form", oligomer_compute_form_submit);
+
+
 }
 
 function main(){

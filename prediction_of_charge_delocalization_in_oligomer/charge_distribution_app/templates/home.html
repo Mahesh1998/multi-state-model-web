@@ -4,25 +4,44 @@
 <html>
     <head>
         <title>Home</title>
-        <link rel="stylesheet" type="text/css" href=" {% static 'css/style.css' %}" />
+        <link rel="stylesheet" type="text/css" href=" {% static 'css/style.css' %} " />
     </head>
     <body>
-        <form id="select_form_type" class="select_form_type">
-            <label for="form_type">Select one from the dropdown.</label> <br>
-            <select name="select_form" id="select_form">
-                <option value="oligomer">Oligomer</option>
-                <option value="series_oligomer">Series Of oligomer</option>
-            </select>
-        </form>
-        <form id="oligomer_compute_form" class="oligomer_compute_form">
-            <label for="n_value">Enter N Value:</label><br>
-            <input type="text" id="n_value" name="n_value" value="" required> <br>
-            <label for="couplings">Enter Couplings(Comma Separated):</label> <br>
-            <input type="text" id="couplings" name="couplings" value="" required> <br>
-            <label for="couplings">Enter Shift Ends(Comma Separated):</label> <br>
-            <input type="text" id="shift_ends" name="shift_ends" value="" required> <br><br>
-            <input type="submit" value="Submit">
-        </form>
+        <div id="select_form_div" class="select_form_div">
+            <form id="select_form_type" class="select_form_type">
+                <label for="form_type">Select one from the dropdown.</label> <br>
+                <select name="select_form" id="select_form">
+                    <option disabled selected value> -- select an option -- </option>
+                    <option value="oligomer_compute_form">Oligomer</option>
+                    <option value="series_oligomer_compute_form">Series Of oligomer</option>
+                </select>
+            </form>
+        </div>
+
+        <div id="forms_list" class="forms_list">
+            <form id="oligomer_compute_form" class="oligomer_compute_form">
+                <label for="n_value">Enter N Value:</label><br>
+                <input type="text" id="n_value" name="n_value" value="" required> <br>
+                <label for="couplings">Enter Couplings(Comma Separated):</label> <br>
+                <input type="text" id="couplings" name="couplings" value="" required> <br>
+                <label for="couplings">Enter Shift Ends(Comma Separated):</label> <br>
+                <input type="text" id="shift_ends" name="shift_ends" value="" required> <br><br>
+                <input type="submit" value="Submit">
+            </form>
+            <form id="series_oligomer_compute_form" class="series_oligomer_compute_form">
+                <label for="n_value">Enter Lower value of N:</label><br>
+                <input type="text" id="series_n_lower_value" name="n_lower_value" value="" required> <br>
+                <label for="n_value">Enter Higher value of N:</label><br>
+                <input type="text" id="series_n_higher_value" name="n_higher_value" value="" required> <br>
+                <label for="couplings">Enter Couplings(Comma Separated):</label> <br>
+                <input type="text" id="series_couplings" name="couplings" value="" required> <br>
+                <label for="couplings">Enter Shift Ends(Comma Separated):</label> <br>
+                <input type="text" id="series_shift_ends" name="shift_ends" value="" required> <br><br>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+
+        
         <br><br>
         <h1>Output</h1> <br>
         <div id="output"></div>
