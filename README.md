@@ -13,7 +13,11 @@ source "virtual environment name"/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
-5. Run the project
+5. Navigate to the below directory to run the project.
+```bash
+cd prediction_of_charge_delocalization_in_oligomer/ 
+```
+6. Run the project
 ```bash
 python manage.py runserver
 ```
