@@ -41,3 +41,5 @@ def oligomer_compute(request):
 
 
     return JsonResponse(json_response)
+
+
