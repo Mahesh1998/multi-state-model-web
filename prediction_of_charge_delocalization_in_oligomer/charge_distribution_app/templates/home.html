@@ -4,25 +4,33 @@
 <html>
     <head>
         <title>Home</title>
+        <link rel="stylesheet" type="text/css" href=" {% static 'css/style.css' %}" />
     </head>
     <body>
-        <form id="oligomer_compute_form">
+        <form id="select_form_type" class="select_form_type">
+            <label for="form_type">Select one from the dropdown.</label> <br>
+            <select name="select_form" id="select_form">
+                <option value="oligomer">Oligomer</option>
+                <option value="series_oligomer">Series Of oligomer</option>
+            </select>
+        </form>
+        <form id="oligomer_compute_form" class="oligomer_compute_form">
             <label for="n_value">Enter N Value:</label><br>
-            <input type="text" id="n_value" name="n_value" value="" required><br>
-            <label for="couplings">Enter Couplings(Comma Separated):</label><br>
-            <input type="text" id="couplings" name="couplings" value="" required><br>
-            <label for="couplings">Enter Shift Ends(Comma Separated):</label><br>
-            <input type="text" id="shift_ends" name="shift_ends" value="" required><br><br>
+            <input type="text" id="n_value" name="n_value" value="" required> <br>
+            <label for="couplings">Enter Couplings(Comma Separated):</label> <br>
+            <input type="text" id="couplings" name="couplings" value="" required> <br>
+            <label for="couplings">Enter Shift Ends(Comma Separated):</label> <br>
+            <input type="text" id="shift_ends" name="shift_ends" value="" required> <br><br>
             <input type="submit" value="Submit">
         </form>
         <br><br>
-        <h1>Output</h1><br>
+        <h1>Output</h1> <br>
         <div id="output"></div>
         <div id="barplot">
             
         </div>
     </body>
     <footer>
-        <script src="{% static 'js/script.js' %} "></script>
+        <script src=" {% static 'js/script.js' %} "></script>
     </footer>
 </html>
