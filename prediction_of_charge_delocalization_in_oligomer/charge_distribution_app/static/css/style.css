@@ -1,15 +1,125 @@
-.oligomer_compute_form{
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    color: #4CAF50;
+}
+
+#tabs {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.tablink {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 0 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.tablink:hover {
+    background-color: #45a049;
+}
+
+.forms_list {
+    display: flex;
+    justify-content: center;
+}
+
+.tabcontent {
     display: none;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
 }
 
-.oligomer_compute_form_display{
-    display: block;
+.compute_form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-.series_oligomer_compute_form{
-    display: none;
+.compute_form label {
+    font-weight: bold;
 }
 
-.series_oligomer_compute_form_display{
-    display: block;
+.compute_form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.compute_form input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.compute_form input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+#output{
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#plot {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    /* Flexbox adjustments */
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center; /* Align items vertically */
+    align-items: center; /* Center items horizontally */
+    height: fit-content; /* Adjust height based on content */
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    position: relative;
+}
+
+#plot img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px; /* Optional: add some spacing between images */
+}
+
+
+#plot img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 5px;
 }
