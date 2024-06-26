@@ -1,27 +1,17 @@
-function create_div(){
-
-}
-
-function selected_form(e) {
-    e.preventDefault();
-    let form = document.getElementById(this.value);
-    let div = document.getElementById("forms_list");
-    if (div.children[0].classList.contains("oligomer_compute_form_display")){
-        div.children[0].classList.remove("oligomer_compute_form_display");
-        form.classList.add("series_oligomer_compute_form_display");
+function open_form(formName) {
+    var i;
+    var x = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";
     }
-    else if (div.children[1].classList.contains("series_oligomer_compute_form_display")){
-        div.children[1].classList.remove("series_oligomer_compute_form_display");
-        form.classList.add("oligomer_compute_form_display");
-    }
-    else{
-        form.classList.add(this.value + "_display");
-    }
-    
+    document.getElementById(formName).style.display = "block";
 }
 
 function oligomer_compute_form_submit(e){
     e.preventDefault();
+    document.getElementById("output").innerHTML = "";
+    document.getElementById("output").style.display = "block";
+    document.getElementById("plot").innerHTML = "";
     console.log("Event Listener called");
     console.log(this.elements[0].value);
     couplings = this.elements[1].value.split(",").filter(function(element) {
@@ -46,12 +36,148 @@ function oligomer_compute_form_submit(e){
 
     // function execute after request is successful 
     xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            console.log(this.responseText);
+            
+            let json_response = JSON.parse(this.responseText);
+
+            let formatted_response = `
+                <p>Oligomer: ${json_response['Oligomer']}</p>
+                <p>Global Minimum: ${json_response['Global Minimum']}</p>
+                <p>Ground State: ${json_response['Ground State']}</p>
+                <p>Excited State: ${json_response['Excited State']}</p>
+                <p>Charges:</p>
+                <ul>
+                    ${json_response['Charges'].map(charge => `<li>${charge}</li>`).join('')}
+                </ul>
+            `;
+            console.log(json_response);
+            //formatted_response = "<p>" +  + "</p>"
+            if (json_response['status'] === "Solved"){
+                document.getElementById("output").innerHTML = formatted_response;
+                const charge_plot = document.createElement('img');
+
+                if (!json_response.charge_dist && !json_response.global_min_plot){
+                    alert('no images found in response');
+                }
+
+                else {
+                    if (json_response.charge_dist) {
+                        // Display the Base64-encoded images
+                        charge_plot.src = `data:image/png;base64,${json_response.charge_dist}`;
+                        charge_plot.alt = 'Image';
+                        imagesContainer = document.getElementById("plot")
+                        imagesContainer.appendChild(charge_plot);
+                    }
+
+                    else {
+                        alert('Charge Distribution plot image not found in the response');
+                    }
+
+
+                    if(json_response.global_min_plot) {
+                        // Display the global minimum plot
+                        let global_min_plot = document.createElement('img');
+                        global_min_plot.src = `data:image/png;base64,${json_response.global_min_plot}`;
+                        global_min_plot.alt = 'Generated Image';
+                        document.getElementById("plot").appendChild(global_min_plot);
+                    }
+                    else {
+                        alert('global mininmum plot image  not found in response');
+                    }
+
+                }
+        
+
+                
+            }
+
+            else {
+                alert("Unable to solve Oligomer. Please try with different values.");
+            }
+        }
+
+        else {
+            alert("Error in the response. Please try again.");
+        }
+        
+    }
+
+    // Sending our request 
+    xhr.send(JSON.stringify(request));
+}
+
+function series_oligomer_compute_form_submit(e){
+    e.preventDefault();
+    document.getElementById("output").innerHTML = "";
+    document.getElementById("output").style.display = "none";
+    document.getElementById("plot").innerHTML = "";
+    console.log(this.elements[0].value);
+    console.log(this.elements[1].value);
+    console.log(this.elements[2].value);
+    console.log(this.elements[3].value);
+
+    couplings = this.elements[2].value.split(",").filter(function(element) {
+        return element !== '';
+      });
+      shift_ends = this.elements[3].value.split(",").filter(function(element) {
+        return element !== '';
+      });
+    
+
+    request = {
+    "n_low": this.elements[0].value,
+    "n_high": this.elements[1].value,
+    "couplings": couplings,
+    "shift_ends": shift_ends
+    };
+    console.log(request);
+    // Creating Our XMLHttpRequest object 
+    let xhr = new XMLHttpRequest();
+
+    // Making our connection  
+    let url = 'http://localhost:8000/series/ocompute';
+    xhr.open("POST", url, false);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+    // function execute after request is successful 
+    xhr.onload = function () {
         console.log(this.responseText);
         let json_response = JSON.parse(this.responseText);
         console.log(json_response);
-        //formatted_response = "<p>" +  + "</p>"
-        document.getElementById("output").innerHTML = this.responseText;
-        document.getElementById("barplot").innerHTML = '<img src="' + json_response['barplot'] + '">'
+
+        if (!json_response.global_min_plot && !json_response.ground_state_plot){
+            alert('no images found in response');
+        }
+
+        else {
+            if (json_response.ground_state_plot) {
+                // Display the ground state plot
+                let ground_state_plot = document.createElement('img');
+                ground_state_plot.src = `data:image/png;base64,${json_response.ground_state_plot}`;
+                ground_state_plot.alt = 'Generated Image';
+                document.getElementById("plot").appendChild(ground_state_plot);
+            
+                // Add a line break
+                document.getElementById("plot").appendChild(document.createElement('br'));
+                document.getElementById("plot").appendChild(document.createElement('br'));
+            }
+            else {
+                alert('ground state plot image  not found in response');
+            }
+            
+            if (json_response.global_min_plot){
+                // Display the global minimum plot
+                let global_min_plot = document.createElement('img');
+                global_min_plot.src = `data:image/png;base64,${json_response.global_min_plot}`;
+                global_min_plot.alt = 'Generated Image';
+                document.getElementById("plot").appendChild(global_min_plot);
+    
+            } 
+            else {
+                alert('global mininmum plot image  not found in response');
+            }
+        }        
     }
     // Sending our request 
     xhr.send(JSON.stringify(request));
@@ -62,12 +188,34 @@ function genericFormEventListener(form_id, eventListenerName){
     form.addEventListener("submit", eventListenerName);
 }
 
+function dom_load_content(e){
+    open_form("oligomer");
+}
+
 function allEventListeners(){
-    //select form type event listener
-    document.getElementById("select_form").addEventListener("change", selected_form);
+
+    //oligomer & series oligomer tab
+    document.getElementById("oligomer_tab").addEventListener("click", function(){
+        open_form("oligomer");
+    });
+    document.getElementById("series_oligomer_tab").addEventListener("click", function(){
+        open_form("series_oligomer");
+    });
+
+    //DOM Content load event listener
+    document.addEventListener('DOMContentLoaded', dom_load_content);
+
+    
 
     //oligomer compute form event listener
     genericFormEventListener("oligomer_compute_form", oligomer_compute_form_submit);
+
+    
+
+     //series oligomer compute form event listener
+     genericFormEventListener("series_oligomer_compute_form", series_oligomer_compute_form_submit);
+     
+
 
 
 }
