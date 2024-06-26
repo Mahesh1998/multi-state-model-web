@@ -7,10 +7,6 @@ function open_form(formName) {
     document.getElementById(formName).style.display = "block";
 }
 
-function create_image_element() {
-
-}
-
 function oligomer_compute_form_submit(e){
     e.preventDefault();
     document.getElementById("output").innerHTML = "";
@@ -40,28 +36,73 @@ function oligomer_compute_form_submit(e){
 
     // function execute after request is successful 
     xhr.onload = function () {
-        console.log(this.responseText);
-        
-        let json_response = JSON.parse(this.responseText);
+        if (xhr.status >= 200 && xhr.status < 300) {
+            console.log(this.responseText);
+            
+            let json_response = JSON.parse(this.responseText);
 
-        let formatted_response = `
-            <p>Oligomer: ${json_response['Oligomer']}</p>
-            <p>Global Minimum: ${json_response['Global Minimum']}</p>
-            <p>Ground State: ${json_response['Ground State']}</p>
-            <p>Excited State: ${json_response['Excited State']}</p>
-            <p>Charges:</p>
-            <ul>
-                ${json_response['Charges'].map(charge => `<li>${charge}</li>`).join('')}
-            </ul>
-        `;
-        console.log(json_response);
-        //formatted_response = "<p>" +  + "</p>"
-        if (json_response['status'] === "Solved"){
-            document.getElementById("output").innerHTML = formatted_response;
-            document.getElementById("plot").innerHTML = '<img src="' + staticFileUrl + json_response['barplot'] + '">'
+            let formatted_response = `
+                <p>Oligomer: ${json_response['Oligomer']}</p>
+                <p>Global Minimum: ${json_response['Global Minimum']}</p>
+                <p>Ground State: ${json_response['Ground State']}</p>
+                <p>Excited State: ${json_response['Excited State']}</p>
+                <p>Charges:</p>
+                <ul>
+                    ${json_response['Charges'].map(charge => `<li>${charge}</li>`).join('')}
+                </ul>
+            `;
+            console.log(json_response);
+            //formatted_response = "<p>" +  + "</p>"
+            if (json_response['status'] === "Solved"){
+                document.getElementById("output").innerHTML = formatted_response;
+                const charge_plot = document.createElement('img');
+
+                if (!json_response.charge_dist && !json_response.global_min_plot){
+                    alert('no images found in response');
+                }
+
+                else {
+                    if (json_response.charge_dist) {
+                        // Display the Base64-encoded images
+                        charge_plot.src = `data:image/png;base64,${json_response.charge_dist}`;
+                        charge_plot.alt = 'Image';
+                        imagesContainer = document.getElementById("plot")
+                        imagesContainer.appendChild(charge_plot);
+                    }
+
+                    else {
+                        alert('Charge Distribution plot image not found in the response');
+                    }
+
+
+                    if(json_response.global_min_plot) {
+                        // Display the global minimum plot
+                        let global_min_plot = document.createElement('img');
+                        global_min_plot.src = `data:image/png;base64,${json_response.global_min_plot}`;
+                        global_min_plot.alt = 'Generated Image';
+                        document.getElementById("plot").appendChild(global_min_plot);
+                    }
+                    else {
+                        alert('global mininmum plot image  not found in response');
+                    }
+
+                }
+        
+
+                
+            }
+
+            else {
+                alert("Unable to solve Oligomer. Please try with different values.");
+            }
+        }
+
+        else {
+            alert("Error in the response. Please try again.");
         }
         
     }
+
     // Sending our request 
     xhr.send(JSON.stringify(request));
 }
@@ -104,20 +145,39 @@ function series_oligomer_compute_form_submit(e){
         console.log(this.responseText);
         let json_response = JSON.parse(this.responseText);
         console.log(json_response);
-        
-        // Display the ground state plot
-        let groundStateImg = document.createElement('img');
-        groundStateImg.src = staticFileUrl + json_response['ground_state_plot'];
-        document.getElementById("plot").appendChild(groundStateImg);
+
+        if (!json_response.global_min_plot && !json_response.ground_state_plot){
+            alert('no images found in response');
+        }
+
+        else {
+            if (json_response.ground_state_plot) {
+                // Display the ground state plot
+                let ground_state_plot = document.createElement('img');
+                ground_state_plot.src = `data:image/png;base64,${json_response.ground_state_plot}`;
+                ground_state_plot.alt = 'Generated Image';
+                document.getElementById("plot").appendChild(ground_state_plot);
+            
+                // Add a line break
+                document.getElementById("plot").appendChild(document.createElement('br'));
+                document.getElementById("plot").appendChild(document.createElement('br'));
+            }
+            else {
+                alert('ground state plot image  not found in response');
+            }
+            
+            if (json_response.global_min_plot){
+                // Display the global minimum plot
+                let global_min_plot = document.createElement('img');
+                global_min_plot.src = `data:image/png;base64,${json_response.global_min_plot}`;
+                global_min_plot.alt = 'Generated Image';
+                document.getElementById("plot").appendChild(global_min_plot);
     
-        // Add a line break
-        document.getElementById("plot").appendChild(document.createElement('br'));
-        document.getElementById("plot").appendChild(document.createElement('br'));
-    
-        // Display the global minimum plot
-        let globalMinImg = document.createElement('img');
-        globalMinImg.src = staticFileUrl + json_response['global_min_plot'];
-        document.getElementById("plot").appendChild(globalMinImg);
+            } 
+            else {
+                alert('global mininmum plot image  not found in response');
+            }
+        }        
     }
     // Sending our request 
     xhr.send(JSON.stringify(request));
