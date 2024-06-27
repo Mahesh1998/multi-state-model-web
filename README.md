@@ -49,7 +49,11 @@ Pre-requisite: Podman container should be running.
 1. change the current working directory to systemd user.
 ```bash
 cd ~/.config/systemd/user/
-``` 
+```
+Create if not exists
+``bash
+mkdir -p ~/.config/systemd/user/
+```
 2. Generate "oligomer_application.service" file.
 ```bash
 podman generate systemd --new --name oligomer_container
@@ -58,15 +62,13 @@ podman generate systemd --new --name oligomer_container
 ```bash
 systemctl --user daemon-reload
 ``` 
-4. Enable oligomer_application.service and podman-restart.service
+4. Enable oligomer_application.service
 ```bash
 systemctl --user enable oligomer_application.service
-systemctl --user enable podman-restart.service
 ``` 
-5. Check the status of both services. They should be enabled/active.
+5. Check the status of oligomer_application service. They should be enabled/active.
 ```bash
 systemctl --user status oligomer_application.service
-systemctl --user status podman-restart.service
 ``` 
 Now podman container should restart automaticaly upon reboot. If not, then please recheck all the steps.
 
