@@ -22,3 +22,23 @@ cd prediction_of_charge_delocalization_in_oligomer/
 python manage.py runserver
 ```
 Now you should be able to access the web application on [localhost:8000](http://localhost:8000/)
+
+
+## Steps to run the project using podman
+
+1. Install podman, if not exists.
+```bash
+sudo apt-get update
+sudo apt-get -y install podman
+```
+2. Navigate to project directory("multi-state-model-web") and build podman image
+```bash
+podman build -t prediction_of_charge_delocalization_in_oligomer .
+```
+3. Run podman container using podman image
+```bash
+podman run -d --name oligomer_container --restart=always -p 8000:8000 prediction_of_charge_delocalization_in_oligomer:latest
+```
+podman run -d --name oligomer_container --restart=always -p 8000:8000 prediction_of_charge_delocalization_in_oligomer:latest
+
+
