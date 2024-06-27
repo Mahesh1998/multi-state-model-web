@@ -39,6 +39,34 @@ podman build -t prediction_of_charge_delocalization_in_oligomer .
 ```bash
 podman run -d --name oligomer_container --restart=always -p 8000:8000 prediction_of_charge_delocalization_in_oligomer:latest
 ```
-podman run -d --name oligomer_container --restart=always -p 8000:8000 prediction_of_charge_delocalization_in_oligomer:latest
+Now you should be able to access the web application on [localhost:8000](http://localhost:8000/)
 
+
+## Steps to auto restart the podman container after reboot using systemd.
+
+Pre-requisite: Podman container should be running.
+
+1. change the current working directory to systemd user.
+```bash
+cd ~/.config/systemd/user/
+``` 
+2. Generate "oligomer_application.service" file.
+```bash
+podman generate systemd --new --name oligomer_container
+``` 
+3. Reload the systemd deamon
+```bash
+systemctl --user daemon-reload
+``` 
+4. Enable oligomer_application.service and podman-restart.service
+```bash
+systemctl --user enable oligomer_application.service
+systemctl --user enable podman-restart.service
+``` 
+5. Check the status of both services. They should be enabled/active.
+```bash
+systemctl --user status oligomer_application.service
+systemctl --user status podman-restart.service
+``` 
+Now podman container should restart automaticaly upon reboot. If not, then please recheck all the steps.
 
