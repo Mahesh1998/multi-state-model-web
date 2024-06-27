@@ -56,7 +56,7 @@ mkdir -p ~/.config/systemd/user/
 ```
 2. Generate "oligomer_application.service" file.
 ```bash
-podman generate systemd --new --name oligomer_container
+podman generate systemd --new --name oligomer_container > oligomer_application.service
 ``` 
 3. Reload the systemd deamon
 ```bash
