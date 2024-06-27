@@ -50,8 +50,8 @@ Pre-requisite: Podman container should be running.
 ```bash
 cd ~/.config/systemd/user/
 ```
-Create if not exists
-``bash
+Create if not exists.
+```bash
 mkdir -p ~/.config/systemd/user/
 ```
 2. Generate "oligomer_application.service" file.
