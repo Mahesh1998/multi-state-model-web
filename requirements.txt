@@ -4,3 +4,5 @@ pandas
 matplotlib
 scipy
 djangorestframework
+django-cors-headers
+

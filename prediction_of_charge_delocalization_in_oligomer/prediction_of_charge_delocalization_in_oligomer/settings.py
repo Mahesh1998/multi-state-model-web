@@ -28,7 +28,12 @@ SECRET_KEY = 'django-insecure-+26(!vg5h1@nms#gtn3u=epb^m*kqp_il-_vs8%1p1(=p&8+sx
 DEBUG = True
 
 ALLOWED_HOSTS = ["0.0.0.0", "172.24.29.153",  "localhost", "oligomers.nmsu.edu"]
-CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",  # Add the origin of your frontend application
+]
+
+#CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_METHODS = ['GET','POST']
 # Application definition
 
@@ -39,12 +44,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'charge_distribution_app'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
