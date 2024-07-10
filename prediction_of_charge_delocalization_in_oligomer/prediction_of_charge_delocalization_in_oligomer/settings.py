@@ -29,12 +29,21 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["0.0.0.0", "172.24.29.153",  "localhost", "oligomers.nmsu.edu"]
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8000",  # Add the origin of your frontend application
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_METHODS = [
+    "GET",
+    "POST",
+    "PUT",
+    "DELETE",
+    "OPTIONS",
 ]
 
-#CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_METHODS = ['GET','POST']
+CORS_ALLOW_HEADERS = [
+    "content-type",
+    "authorization",
+]
+
+CORS_ALLOW_CREDENTIALS = True
 # Application definition
 
 INSTALLED_APPS = [
