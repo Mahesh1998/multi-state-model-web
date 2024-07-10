@@ -37,7 +37,7 @@ podman build -t prediction_of_charge_delocalization_in_oligomer .
 ```
 3. Run podman container using podman image
 ```bash
-podman run -d --name oligomer_container --restart=always -p 8000:8000 prediction_of_charge_delocalization_in_oligomer:latest
+podman run -d --name oligomer_container --restart=always -p 55080:8000 prediction_of_charge_delocalization_in_oligomer:latest
 ```
 Now you should be able to access the web application on [localhost:8000](http://localhost:8000/)
 
