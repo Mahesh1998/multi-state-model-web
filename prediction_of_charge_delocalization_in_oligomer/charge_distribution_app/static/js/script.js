@@ -12,8 +12,6 @@ function oligomer_compute_form_submit(e){
     document.getElementById("output").innerHTML = "";
     document.getElementById("output").style.display = "block";
     document.getElementById("plot").innerHTML = "";
-    console.log("Event Listener called");
-    console.log(this.elements[0].value);
     couplings = this.elements[1].value.split(",").filter(function(element) {
         return element !== '';
       });
@@ -25,7 +23,6 @@ function oligomer_compute_form_submit(e){
         "couplings": couplings,
         "shift_ends": shift_ends
     };
-    console.log(request);
     // Creating Our XMLHttpRequest object 
     let xhr = new XMLHttpRequest();
 
@@ -37,7 +34,6 @@ function oligomer_compute_form_submit(e){
     // function execute after request is successful 
     xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
-            console.log(this.responseText);
             
             let json_response = JSON.parse(this.responseText);
 
@@ -51,7 +47,6 @@ function oligomer_compute_form_submit(e){
                     ${json_response['Charges'].map(charge => `<li>${charge}</li>`).join('')}
                 </ul>
             `;
-            console.log(json_response);
             //formatted_response = "<p>" +  + "</p>"
             if (json_response['status'] === "Solved"){
                 document.getElementById("output").innerHTML = formatted_response;
@@ -112,10 +107,6 @@ function series_oligomer_compute_form_submit(e){
     document.getElementById("output").innerHTML = "";
     document.getElementById("output").style.display = "none";
     document.getElementById("plot").innerHTML = "";
-    console.log(this.elements[0].value);
-    console.log(this.elements[1].value);
-    console.log(this.elements[2].value);
-    console.log(this.elements[3].value);
 
     couplings = this.elements[2].value.split(",").filter(function(element) {
         return element !== '';
@@ -131,7 +122,6 @@ function series_oligomer_compute_form_submit(e){
     "couplings": couplings,
     "shift_ends": shift_ends
     };
-    console.log(request);
     // Creating Our XMLHttpRequest object 
     let xhr = new XMLHttpRequest();
 
@@ -142,9 +132,7 @@ function series_oligomer_compute_form_submit(e){
 
     // function execute after request is successful 
     xhr.onload = function () {
-        console.log(this.responseText);
         let json_response = JSON.parse(this.responseText);
-        console.log(json_response);
 
         if (!json_response.global_min_plot && !json_response.ground_state_plot){
             alert('no images found in response');
