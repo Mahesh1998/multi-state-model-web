@@ -1,3 +1,4 @@
+PORT = 55080
 function open_form(formName) {
     var i;
     var x = document.getElementsByClassName("tabcontent");
@@ -30,7 +31,7 @@ function oligomer_compute_form_submit(e){
     let xhr = new XMLHttpRequest();
 
     // Making our connection  
-    let url = 'http://localhost:8000/ocompute';
+    let url = 'http://localhost:' + PORT +'/ocompute';
     xhr.open("POST", url, false);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
@@ -136,7 +137,7 @@ function series_oligomer_compute_form_submit(e){
     let xhr = new XMLHttpRequest();
 
     // Making our connection  
-    let url = 'http://localhost:8000/series/ocompute';
+    let url = 'http://localhost:' + PORT + '/series/ocompute';
     xhr.open("POST", url, false);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
